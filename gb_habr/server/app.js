@@ -1,22 +1,10 @@
-//import express from 'express';
-//import jwt from 'jsonwebtoken';
-
-
 const express = require('express');
 const multer = require('multer');
 
 
 
 const { UserController, ArticleController } = require('./controllers/index');
-
-
-// const userValidators = require('./services/userValidators');
-// const articleValidators = require('./services/articleValidators');
-
-// const {checkAuth} = require('./services/checkAuth');
-// const { checkValidation } = require('./services/checkValidation');
-
-const {userValidators, articleValidators, checkAuth, checkValidation } = require('./services/index');
+const { userValidators, articleValidators, checkAuth, checkValidation } = require('./services/index');
 
 
 const app = express();
@@ -34,10 +22,7 @@ const storage = multer.diskStorage({
 
 });
 
-const upload = multer({storage});
-
-
-
+const upload = multer({ storage });
 
 app.get('/', (req, res, next) => {
     res.send('Hello!333333');
@@ -58,8 +43,8 @@ app.get('/posts', ArticleController.getAll);
 app.get('/posts/:id', ArticleController.getOne);
 
 app.post('/posts', checkAuth, articleValidators.articleCreateValidation, checkValidation, ArticleController.create);
-app.delete('/posts/:id', checkAuth, ArticleController.remove);
 app.patch('/posts/:id', checkAuth, articleValidators.articleUpdateValidation, checkValidation, ArticleController.update);
+app.delete('/posts/:id', checkAuth, ArticleController.remove);
 
 
 app.listen(7777, (err) => {

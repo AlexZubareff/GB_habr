@@ -5,12 +5,10 @@ const bcrypt = require('bcrypt');
 const config = require('../config/config')
 
 
-
-
 const register = async (req, res, next) => {
 
     try {
-        
+
         const pass = req.body.password;
         console.log(pass);
 
@@ -35,8 +33,6 @@ const register = async (req, res, next) => {
             },
         );
 
-
-
         res.json({
             user,
             token
@@ -48,7 +44,6 @@ const register = async (req, res, next) => {
 
     }
 }
-
 
 const login = async (req, res, next) => {
     try {
@@ -98,13 +93,13 @@ const login = async (req, res, next) => {
 const auth = async (req, res, next) => {
     try {
         console.log(req.user_id);
-        const user = await User.findOne({where:{id: req.user_id}});
+        const user = await User.findOne({ where: { id: req.user_id } });
         console.log(user);
 
         if (!user) {
             return res.status(500).json({
-                 message: "Ползователь не найден" 
-                });
+                message: "Ползователь не найден"
+            });
         }
 
         res.json({
@@ -114,8 +109,8 @@ const auth = async (req, res, next) => {
 
     } catch (error) {
         return res.status(500).json({
-            message: "Нет доступа" 
-           });
+            message: "Нет доступа"
+        });
 
     }
 
