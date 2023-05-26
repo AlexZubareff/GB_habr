@@ -8,6 +8,7 @@ const getAll = async (req, res, next) => {
     try {
         const articles = await Article.findAll({
             include: User,
+            limit: 9,
         },
         );
 

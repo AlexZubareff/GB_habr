@@ -1,5 +1,6 @@
 const express = require('express');
 const multer = require('multer');
+const cors = require('cors');
 
 
 
@@ -9,6 +10,7 @@ const { userValidators, articleValidators, checkAuth, checkValidation } = requir
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use('/uploads', express.static('uploads'));
 
 
@@ -30,7 +32,7 @@ app.get('/', (req, res, next) => {
 
 
 app.post('/auth/register', userValidators.registerUserValidation, checkValidation, UserController.register);
-app.get('/auth/login', userValidators.loginUserValidation, checkValidation, UserController.login);
+app.post('/auth/login', userValidators.loginUserValidation, checkValidation, UserController.login);
 app.get('/auth/me', checkAuth, UserController.auth);
 
 app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
