@@ -250,7 +250,7 @@ export function SingleArticle() {
                                         <div className="post-block-wrapper clearfix">
                                             <div className="post-thumbnail mb-0">
                                                 <Link to="single-post.html">
-                                                    <img className="img-fluid" src="images/news/news-04.jpg" alt="post-thumbnail" />
+                                                    <img className="img-fluid" src="../images/news/news-04.jpg" alt="post-thumbnail" />
                                                 </Link>
                                             </div>
                                             <Link className="post-category" to="post-category-1.html">Tech</Link>
@@ -267,7 +267,7 @@ export function SingleArticle() {
                                         <div className="post-block-wrapper clearfix">
                                             <div className="post-thumbnail mb-0">
                                                 <Link to="single-post.html">
-                                                    <img className="img-fluid" src="images/news/news-10.jpg" alt="post-thumbnail" />
+                                                    <img className="img-fluid" src="../images/news/news-10.jpg" alt="post-thumbnail" />
                                                 </Link>
                                             </div>
                                             <Link className="post-category" to="post-category-1.html">Food</Link>
@@ -283,7 +283,7 @@ export function SingleArticle() {
                                         <div className="post-block-wrapper clearfix">
                                             <div className="post-thumbnail mb-0">
                                                 <Link to="single-post.html">
-                                                    <img className="img-fluid" src="images/news/news-11.jpg" alt="post-thumbnail" />
+                                                    <img className="img-fluid" src="../images/news/news-11.jpg" alt="post-thumbnail" />
                                                 </Link>
                                             </div>
                                             <Link className="post-category" to="post-category-1.html">Tour</Link>
@@ -299,7 +299,7 @@ export function SingleArticle() {
                                         <div className="post-block-wrapper clearfix">
                                             <div className="post-thumbnail mb-0">
                                                 <Link to="single-post.html">
-                                                    <img className="img-fluid" src="images/news/news-18.jpg" alt="post-thumbnail" />
+                                                    <img className="img-fluid" src="../images/news/news-18.jpg" alt="post-thumbnail" />
                                                 </Link>
                                             </div>
                                             <Link className="post-category" to="post-category-1.html">Beauty</Link>
@@ -321,7 +321,7 @@ export function SingleArticle() {
                                 <ul className="all-comments">
                                     <li>
                                         <div className="comment">
-                                            <img className="commented-person" alt="" src="images/news/author-01.jpg" />
+                                            <img className="commented-person" alt="" src="../images/news/author-01.jpg" />
                                                 <div className="comment-body">
                                                     <div className="meta-data">
                                                         <span className="commented-person-name">Jack Anderson</span>
@@ -342,7 +342,7 @@ export function SingleArticle() {
                                         <ul className="comments-reply">
                                             <li>
                                                 <div className="comment">
-                                                    <img className="commented-person" alt="" src="images/news/author-02.jpg" />
+                                                    <img className="commented-person" alt="" src="../images/news/author-02.jpg" />
                                                         <div className="comment-body">
                                                             <div className="meta-data">
                                                                 <span className="commented-person-name">Jhonny American</span>
@@ -362,7 +362,7 @@ export function SingleArticle() {
                                             </li>
                                         </ul>
                                         <div className="comment last">
-                                            <img className="commented-person" alt="" src="images/news/author-03.jpg" />
+                                            <img className="commented-person" alt="" src="../images/news/author-03.jpg" />
                                                 <div className="comment-body">
                                                     <div className="meta-data">
                                                         <span className="commented-person-name">Vicky Fong</span>

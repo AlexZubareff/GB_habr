@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { logaut, selectIsAuth } from '../../redux/slices/auth';
+import $ from 'jquery';
 
 
 
@@ -96,28 +97,63 @@ const onClickLogaut = () => {
                   </ul>
                     {/* <input type="email" name="email" id="newsletter-form-email" className="form-control form-control-lg" placeholder="E-mail" autocomplete="off" /> */}
                     
-                    {isAuth ? (
+
+
+                  <div className="nav-search ml-auto d-none d-lg-block">
+                  {isAuth ? (
                       <>
-                        <Link to="/login"><button className="btn btn-primary mr-2">Write Article</button></Link>
-                        <Link to="/"><button onClick={onClickLogaut} className="btn btn-primary">Exit</button></Link>
+                        {/* <Link to="/article/create"><button className="btn btn-primary mr-2">Write Article</button></Link>
+                        <Link to="/"><button onClick={onClickLogaut} className="btn btn-primary">Exit</button></Link> */}
+                        <ul className="navbar-nav mr-auto">
+                        <Link className="nav-link" to="/article/create"> <i className="fa fa-pencil fa-lg text-light" aria-hidden="true"></i></Link>
+                        <Link className="nav-link" to="/"><i onClick={onClickLogaut} className="fa fa-arrow-right fa-lg text-light" aria-hidden="true"></i></Link>
+                        <li className="nav-item" id="search">
+                        <Link className="nav-link" id="search"><i className="fa fa-search fa-lg text-light"></i></Link>
+                      </li>
+                      <li className="nav-item dropdown">
+                        <Link className="nav-link" to="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {/* <i className="fa fa-user fa-lg text-light"></i> */}
+                          <img src="images/news/author-02.jpg" alt="author-image" width="25" height="25"/>
+                        </Link>
+                        <div className="dropdown-menu">
+                          <Link className="dropdown-item" to="/userArticles">Статьи</Link>
+                          <Link className="dropdown-item" to="/register">Коментарии</Link>
+                          <Link className="dropdown-item" to="/login">Как стать автором</Link>
+                          <Link className="dropdown-item" to="/register">Настройки</Link>
+                        </div>
+                      </li>
+
+                        </ul>
                       </>
-                    ) : (
+                    )
+                    : (
                       <>
-                      <Link to="/login"><button className="btn btn-primary mr-2">Log in</button></Link>
-                      <Link to="/login"><button className="btn btn-primary">Register</button></Link>
+                  <div className="nav-search ml-auto d-none d-lg-block">
+                    <ul className="navbar-nav mr-auto">
+                      <li className="nav-item" id="search">
+                        <Link className="nav-link"><i className="fa fa-search fa-lg text-light"></i></Link>
+                      </li>
+                      <li className="nav-item dropdown">
+                        <Link className="nav-link" to="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       
+                          <i className="fa fa-user fa-lg text-light"></i>
+                        </Link>
+                        <div className="dropdown-menu">
+                          <Link className="dropdown-item" to="/login">Log In</Link>
+                          <Link className="dropdown-item" to="/register">Register</Link>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+
+                      {/* <Link to="/login"><button className="btn btn-primary mr-2">Log in</button></Link>
+                      <Link to="/register"><button className="btn btn-primary">Register</button></Link> */}
                       </>
                      )
 
                     }
 
-                    {/* <button className="btn btn-primary mr-2">Log in</button> */}
-                    {/* <button className="btn btn-primary">Register</button> */}
 
-
-                  <div className="nav-search ml-auto d-none d-lg-block">
-                    <span id="search">
-                      <i className="fa fa-search"></i>
-                    </span>
                   </div>
                 </div>
               </nav>

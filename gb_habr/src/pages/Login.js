@@ -64,7 +64,7 @@ export function Login() {
                                         </div>
                                     </div>
                                     <div className="col-md-12">
-                                        <button type="submit" className="btn btn-primary">Login</button>
+                                        <button disabled={!isValid} type="submit" className="btn btn-primary">Login</button>
 
                                         <p className="mt-5 mb-0">Not a member yet? <Link to="signup.html">Register Here</Link></p>
                                     </div>

@@ -5,7 +5,7 @@ import NavBar from '../components/Nav/NavBar';
 import Footer from '../components/Footer/Footer';
 import { Link } from 'react-router-dom';
 import { fetchArticles } from '../redux/slices/articles';
-import RecentArticles from '../components/Articles/RecentArticles';
+import Article from '../components/Articles/Article';
 import { TopAuthor } from '../components/Author/TopAuthor';
 import HotNews from '../components/News/HotNews';
 import ImageGrid from '../components/Loading/RecentArticlesLoading';
@@ -136,7 +136,7 @@ console.log (articles);
                                                 <ImageGrid />
                                             ) : (
 
-                                                <RecentArticles
+                                                <Article
                                                     id={elem.id}
                                                     title={elem.title}
                                                     user={elem.user}
