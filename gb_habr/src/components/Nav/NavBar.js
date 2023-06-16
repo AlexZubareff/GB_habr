@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { logaut, selectIsAuth } from '../../redux/slices/auth';
-import $ from 'jquery';
 
 
 
@@ -10,6 +9,10 @@ import $ from 'jquery';
 export default function NavBar() {
 const dispatch = useDispatch();
 const isAuth = useSelector(selectIsAuth);
+const userData = useSelector((state) => state.auth.data);
+console.log(isAuth);
+console.log(userData);
+
 
 const onClickLogaut = () => {
   if (window.confirm('Вы действительно хотите выйти?')) {
@@ -17,6 +20,7 @@ const onClickLogaut = () => {
     window.localStorage.removeItem('token');
   }
 };
+
 
   return (
     <>
@@ -113,13 +117,18 @@ const onClickLogaut = () => {
                       <li className="nav-item dropdown">
                         <Link className="nav-link" to="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           {/* <i className="fa fa-user fa-lg text-light"></i> */}
-                          <img src="images/news/author-02.jpg" alt="author-image" width="25" height="25"/>
+
+                          <img src={userData.user.avatar ? userData.user.avatar : "../images/news/author_no_avatar.png" } alt="author-image" width="25" height="25"/>
                         </Link>
                         <div className="dropdown-menu">
-                          <Link className="dropdown-item" to="/userArticles">Статьи</Link>
+                        <img className="ml-3" src={userData.user.avatar ? userData.user.avatar : "../images/news/author_no_avatar.png" } alt="author-image" width="25" height="25"/>
+                        <div className="ml-3">{userData.user.name}</div>
+
+                        {/* <Link className="dropdown-item" to="/user_articles"><img src={userData.user.avatar ? userData.user.avatar : "../images/news/author_no_avatar.png" } alt="author-image" width="25" height="25"/>{userData.user.name}</Link> */}
+                          <Link className="dropdown-item" to="/user_articles">Статьи</Link>
                           <Link className="dropdown-item" to="/register">Коментарии</Link>
                           <Link className="dropdown-item" to="/login">Как стать автором</Link>
-                          <Link className="dropdown-item" to="/register">Настройки</Link>
+                          <Link className="dropdown-item" to="/register">Профиль</Link>
                         </div>
                       </li>
 

@@ -2,17 +2,82 @@ import React from "react";
 import Header from "../components/Header/Header";
 import NavBar from "../components/Nav/NavBar";
 import Footer from "../components/Footer/Footer";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsAuth } from '../redux/slices/auth';
+import { Link, Navigate } from "react-router-dom";
+import axios from '../axios';
+import AllUserArticles from "../components/Articles/AllUserArticle";
+import ImageGrid from '../components/Loading/RecentArticlesLoading';
 
 
-export function userArticles() {
+import { fetchAllUserArticles } from "../redux/slices/articles";
+import UserArticlesLoader from "../components/Loading/UserArticlesLoader";
+import Error_404 from "../components/Error/error_404";
 
 
+
+
+
+export function UserArticles() {
+
+const dispatch = useDispatch();
+const {articles} = useSelector(state => state.articles);
+const userData = useSelector((state)=>state.auth.data);
+
+// const [data, setData] = React.useState();
+const [isLoading, setLoading] = React.useState(true);
+
+console.log(userData.user.id);
+const userId = userData.user.id;
+const isArticlesLoading = articles.status === 'loading';
+
+// React.useEffect(() => {
+// dispatch(fetchUserArticles(values));
+
+// }, []);
+
+React.useEffect(() => {
+
+    dispatch(fetchAllUserArticles(userId))
+
+    // axios
+    //   .get(`/posts/user/${userId}`)
+    //   .then((res) => {
+    //       setData(res.data);
+    //       setLoading(false);
+    //       console.log(res.data);
+    //   })
+    //   .catch(err => {
+    //       console.log(err);
+    //       alert('Ошибка при получении статей')
+    //   })
+  }, [userId]);
+  
+  console.log(articles.items.length);
+
+    const isAuth = useSelector(selectIsAuth);
+
+
+    if (!window.localStorage.getItem('token') && !isAuth) {
+        return <Navigate to="/" />
+    }
+
+    // if (articles.items.length == 0) {
+    //     return <Error_404 />
+    // } 
+
+    // if (isLoading) {
+    //     return <AllUserArticles 
+    //     isLoading = {isLoading}
+    //     />
+    // }
+    
+
+    
     return (
         <>
         <Header />
         <NavBar />
-
             <section className="block-wrapper">
                 <div className="container">
                     <div className="row">
@@ -29,142 +94,107 @@ export function userArticles() {
                                         <span>Hot News</span>
                                     </h3>
 
-                                    <div className="widget">
-                                        <h3 className="news-title">
-                                            <span>Hot News</span>
-                                        </h3>
-
-                                        <div className="post-overlay-wrapper">
-                                            <div className="post-thumbnail">
-                                                <img className="img-fluid" src="images/news/news-15.jpg" alt="post-thumbnail" />
-                                            </div>
-                                            <div className="post-content">
-                                                <Link className="post-category white" to="post-category-1.html">Fashion</Link>
-                                                <h2 className="post-title">
-                                                    <Link to="single-post.html">First Look At Self-Portrait's Autumn Collection...</Link>
-                                                </h2>
-                                                <div className="post-meta white">
-                                                    <span className="posted-time"><i className="fa fa-clock-o mr-1"></i>17 jun,2019</span>
-                                                    <span> by </span>
-                                                    <span className="post-author">
-                                                        <Link to="author.html">Jammy Anderson</Link>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="post-list-block">
-                                            <div className="post-block-wrapper post-float ">
-                                                <div className="post-thumbnail">
-                                                    <Link to="single-post.html">
-                                                        <img className="img-fluid" src="images/news/news-03.jpg" alt="post-thumbnail" />
-                                                    </Link>
-                                                </div>
-                                                <div className="post-content">
-                                                    <h2 className="post-title title-sm">
-                                                        <Link to="single-post.html">Apple HomePod review: locked in</Link>
-                                                    </h2>
-                                                    <div className="post-meta">
-                                                        <span className="posted-time"><i className="fa fa-clock-o mr-1"></i>2 hours ago</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="post-block-wrapper post-float">
-                                                <div className="post-thumbnail">
-                                                    <Link to="single-post.html">
-                                                        <img className="img-fluid" src="images/news/news-05.jpg" alt="post-thumbnail" />
-                                                    </Link>
-                                                </div>
-                                                <div className="post-content">
-                                                    <h2 className="post-title title-sm">
-                                                        <Link to="single-post.html">Intel’s new smart glasses actually look good</Link>
-                                                    </h2>
-                                                    <div className="post-meta">
-                                                        <span className="posted-time"><i className="fa fa-clock-o mr-1"></i> 15 March , 2019</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="post-block-wrapper post-float">
-                                                <div className="post-thumbnail">
-                                                    <Link to="single-post.html">
-                                                        <img className="img-fluid" src="images/news/news-11.jpg" alt="post-thumbnail" />
-                                                    </Link>
-                                                </div>
-
-                                                <div className="post-content">
-                                                    <h2 className="post-title title-sm">
-                                                        <Link to="single-post.html">Free Two-Hour Delivery From Whole Foods</Link>
-                                                    </h2>
-                                                    <div className="post-meta">
-                                                        <span className="posted-time"><i className="fa fa-clock-o mr-1"></i> 5 hours ago</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="post-block-wrapper post-float">
-                                                <div className="post-thumbnail">
-                                                    <Link to="single-post.html">
-                                                        <img className="img-fluid" src="images/news/news-06.jpg" alt="post-thumbnail" />
-                                                    </Link>
-                                                </div>
-
-                                                <div className="post-content">
-                                                    <h2 className="post-title title-sm">
-                                                        <Link to="single-post.html">Here's How To Get Free Pizza On</Link>
-                                                    </h2>
-                                                    <div className="post-meta">
-                                                        <span className="posted-time"><i className="fa fa-clock-o mr-1"></i> 17 June, 2019</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="widget">
-                                        <img className="banner img-fluid" src="images/banner-ads/ad-sidebar.png" alt="300x300 ads" />
-                                    </div>
-                                    <div className="widget mb-0">
-                                        <h3 className="news-title">
-                                            <span>Newsletter</span>
-                                        </h3>
-                                        <div className="ts-newsletter">
-                                            <div className="newsletter-introtext">
-                                                <h4>Get Updates</h4>
-                                                <p>Subscribe our newsletter to get the best stories into your inbox!</p>
-                                            </div>
-
-                                            <div className="newsletter-form">
-                                                <form action="#" method="post">
-                                                    <div className="form-group">
-                                                        <input type="email" name="email" id="newsletter-form-email" className="form-control form-control-lg" placeholder="E-mail" autocomplete="off" />
-                                                        <button className="btn btn-primary">Subscribe</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <h3 className="news-title">
+                                        <span>Hot News</span>
+                                    </h3>
                                 </div>
                             </div>
                         </div>
                         <div className="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-                                <div className="post-block-wrapper post-float">
-                                    <div className="post-thumbnail">
-                                        <Link to="single-post.html">
-                                            <img className="img-fluid" src="images/news/news-05.jpg" alt="post-thumbnail" />
-                                        </Link>
-                                    </div>
-                                    <div className="post-content">
-                                        <h2 className="post-title title-sm">
-                                            <Link to="single-post.html">Intel’s new smart glasses actually look good</Link>
-                                        </h2>
-                                        <div className="post-meta">
-                                            <span className="posted-time"><i className="fa fa-clock-o mr-1"></i> 15 March , 2019</span>
-                                        </div>
+                        
+                        { articles.items.length == 0 ? <Error_404 /> :
+
+                        (isArticlesLoading ? [...Array(<UserArticlesLoader />)] : articles.items).map((elem, index) =>
+                                            isArticlesLoading ? (
+                                                <UserArticlesLoader />
+                                            ) : (
+                                                <AllUserArticles
+                                                    id={elem.id}
+                                                    title={elem.title}
+                                                    user={elem.user}
+                                                    viewsCount={elem.viewsCount}
+                                                    imageUrl={elem.imageUrl}
+                                                    tags={elem.tags}
+                                                    created_at={elem.created_at.slice(0,10)}
+                                                />
+                                            ))}
+
+
+                        {/* {articles.map(elem => 
+
+
+                                                <AllUserArticles
+                                                    id={elem.id}
+                                                    title={elem.title}
+                                                    user={elem.user}
+                                                    viewsCount={elem.viewsCount}
+                                                    imageUrl={elem.imageUrl}
+                                                    tags={elem.tags}
+                                                    created_at={elem.created_at.slice(0,10)}
+                                                />
+
+)} */}
+
+
+                            {/* <div className="post-block-wrapper post-float">
+                                <div className="post-thumbnail">
+                                    <Link to="single-post.html">
+                                        <img className="img-fluid" src="images/news/news-05.jpg" alt="post-thumbnail" width="140" height="100" />
+                                    </Link>
+                                </div>
+                                <div className="post-content">
+                                    <h2 className="post-title title-sm">
+                                        <Link to="single-post.html">Intel’s new smart glasses actually look good</Link>
+                                    </h2>
+                                    <div className="post-meta">
+                                        <span className="posted-time"><i className="fa fa-clock-o mr-1"></i> 15 March , 2019</span>
                                     </div>
                                 </div>
-                <div className="mt-2">
-                            <button className="btn btn-primary mr-2" type="submit">Редактировать</button>
-                            <button type="button" class="btn btn-danger">Удалить</button>
-                </div>
+                                <div className="mt-2">
+                                <Link to="/article/create"><button className="btn btn-primary btn-sm mr-2" type="submit">Редактировать</button></Link>
+                                    <button type="button" class="btn btn-danger btn-sm">Удалить</button>
+                                </div>
                             </div>
+                            <div className="post-block-wrapper post-float">
+                                <div className="post-thumbnail">
+                                    <Link to="single-post.html">
+                                        <img className="img-fluid" src="images/news/news-03.jpg" alt="post-thumbnail" width="140" height="100" />
+                                    </Link>
+                                </div>
+                                <div className="post-content">
+                                    <h2 className="post-title title-sm">
+                                        <Link to="single-post.html">Intel’s new smart glasses actually look good</Link>
+                                    </h2>
+                                    <div className="post-meta">
+                                        <span className="posted-time"><i className="fa fa-clock-o mr-1"></i> 15 March , 2019</span>
+                                    </div>
+                                </div>
+                                <div className="mt-2">
+                                <Link to="/article/create"><button className="btn btn-primary btn-sm mr-2" type="submit">Редактировать</button></Link>
+                                    <button type="button" class="btn btn-danger btn-sm">Удалить</button>
+                                </div>
+                            </div>
+                            <div className="post-block-wrapper post-float">
+                                <div className="post-thumbnail">
+                                    <Link to="single-post.html">
+                                        <img className="img-fluid" src="images/news/news-04.jpg" alt="post-thumbnail" width="140" height="100" />
+                                    </Link>
+                                </div>
+                                <div className="post-content">
+                                    <h2 className="post-title title-sm">
+                                        <Link to="single-post.html">Intel’s new smart glasses actually look good</Link>
+                                    </h2>
+                                    <div className="post-meta">
+                                        <span className="posted-time"><i className="fa fa-clock-o mr-1"></i> 15 March , 2019</span>
+                                    </div>
+                                </div>
+                                <div className="mt-2">
+                                    <Link to="/article/create"><button className="btn btn-primary btn-sm mr-2" type="submit">Редактировать</button></Link>
+                                    <button type="button" class="btn btn-danger btn-sm">Удалить</button>
+                                </div>
+                            </div> */}
 
+                        </div>
                     </div>
                 </div>
             </section>

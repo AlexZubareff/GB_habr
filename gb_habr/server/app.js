@@ -42,6 +42,8 @@ app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
 });
 
 app.get('/posts', ArticleController.getAll);
+app.get('/posts/user/:id', ArticleController.getAllArticlesUser);
+
 app.get('/posts/:id', ArticleController.getOne);
 
 app.post('/posts', checkAuth, articleValidators.articleCreateValidation, checkValidation, ArticleController.create);

@@ -23,7 +23,7 @@ export function SingleArticle() {
         .then((res) => {
             setData(res.data);
             setLoading(false);
-            console.log(res.data);
+            console.log(res.data.user_id);
         })
         .catch(err => {
             console.log(err);

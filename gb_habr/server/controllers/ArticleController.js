@@ -20,11 +20,35 @@ const getAll = async (req, res, next) => {
 
     }
 };
+const getAllArticlesUser = async (req, res, next) => {
+
+    try {
+        const userId = req.params.id;
+        console.log(userId);
+        const articles = await Article.findAll({
+            where: {
+                user_id: userId,
+              },
+            limit: 5,
+        },
+        );
+
+        res.json(articles);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Не удалось получить статьи" });
+
+    }
+};
+
+
 
 const getOne = async (req, res, next) => {
     try {
         const articleId = req.params.id;
         console.log(articleId);
+        console.log(req.params.user_id);
 
 
         const inc = await Article.increment({ viewsCount: 1 },
@@ -128,5 +152,6 @@ module.exports = {
     getAll,
     getOne,
     remove,
-    update
+    update,
+    getAllArticlesUser
 }

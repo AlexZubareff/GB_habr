@@ -82,3 +82,4 @@ export const selectIsAuth = (state) => Boolean(state.auth.data);
 export const authReducer = authSlice.reducer;
 
 export const {logaut} = authSlice.actions;
+

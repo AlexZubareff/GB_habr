@@ -9,7 +9,7 @@ import React from 'react';
 import { fetchAuthMe, selectIsAuth } from './redux/slices/auth';
 import { Registration } from './pages/Register';
 import { AddArticle } from './pages/AddArticle';
-import { userArticles } from './pages/UserArticles';
+import { UserArticles } from './pages/UserArticles';
 
 
 
@@ -28,7 +28,7 @@ React.useEffect(() => {
             <Route exact path="/about" Component={About} />
             <Route exact path="/login" Component={Login} />
             <Route exact path="/register" Component={Registration} />
-            <Route exact path="/userArticles" Component={userArticles} />
+            <Route exact path="/user_articles" Component={UserArticles} />
             <Route exact path="/article/:id/edit" Component={AddArticle} />
             <Route exact path="/article/create" Component={AddArticle} />
             <Route exact path="/article/:id" Component={SingleArticle} />

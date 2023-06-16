@@ -25,6 +25,7 @@ export function AddArticle() {
     const [imageUrl, setImageUrl] = React.useState('');
     const inputFileRef = React.useRef(null);
 
+    console.warn(id);
 
     const handleChangeFile = async(event) => {
         try {
@@ -54,11 +55,13 @@ export function AddArticle() {
                 text,
                 category_id: 7,
             }
-            const {data} = await axios.post('/posts', fields);
+            const {data} = isEdit
+            ? await axios.patch(`/posts/${id}`, fields)
+            : await axios.post('/posts', fields);
 
-            const id = data.id;
+            const articleId = isEdit ? id : data.id;
 
-            navigate(`/article/${id}`)
+            navigate(`/article/${articleId}`)
 
         } catch (error) {
             console.warn(error);
@@ -111,6 +114,8 @@ if (!window.localStorage.getItem('token') && !isAuth) {
 }
 
 console.log({title, tags, text});
+
+const isEdit = Boolean(id);
 
     return (
 
@@ -236,7 +241,7 @@ console.log({title, tags, text});
                 </div>
                 <SimpleMdeReact value={text} onChange={onChange} options={options} />
                 <div className="mt-2">
-                            <button onClick={onSubmit} className="btn btn-primary mr-2" type="submit">Опубликовать</button>
+                            <button onClick={onSubmit} className="btn btn-primary mr-2" type="submit">{isEdit ? 'Сохранить' : 'Опубликовать'}</button>
                             <button type="button" class="btn btn-danger">Отмена</button>
                 </div>
 
