@@ -26,6 +26,8 @@ dispatch(fetchArticles());
 }, []);
 
 console.log (articles);
+
+
     return(
     <>
             {/* <div className="trending-bar-dark hidden-xs">
@@ -143,6 +145,7 @@ console.log (articles);
                                                     viewsCount={elem.viewsCount}
                                                     imageUrl={elem.imageUrl}
                                                     tags={elem.tags}
+                                                    commentsCount={elem.Comments.length}
                                                 />
 
                                             ))}

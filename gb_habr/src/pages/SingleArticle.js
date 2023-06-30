@@ -7,11 +7,21 @@ import axios from '../axios';
 import FullArticle from "../components/Articles/FullArticle";
 import HotNews from "../components/News/HotNews";
 import NavBar from "../components/Nav/NavBar";
+import Comment from "../components/Comment/Comment";
+import AddComment from "../components/Comment/AddComment";
+
+import { selectIsAuth } from '../redux/slices/auth';
+import { useSelector } from 'react-redux';
+
+
 
 
 export function SingleArticle() {
 
+    const isAuth = useSelector(selectIsAuth);
+    console.log(isAuth);
     const [data, setData] = React.useState();
+
     const [isLoading, setLoading] = React.useState(true);
     const {id} = useParams();
 
@@ -23,13 +33,14 @@ export function SingleArticle() {
         .then((res) => {
             setData(res.data);
             setLoading(false);
-            console.log(res.data.user_id);
-        })
-        .catch(err => {
-            console.log(err);
-            alert('Ошибка при получении статьи')
+            console.log(res.data.User);
+            console.log(res.data.Comments);
         })
     }, [id]);
+
+  
+
+
     // console.log(data);
 
     if (isLoading) {
@@ -219,7 +230,7 @@ export function SingleArticle() {
                                 </div>
                             </div> */}
 
-                            <nav className="post-navigation clearfix">
+                            {/* <nav className="post-navigation clearfix">
                                 <div className="previous-post">
                                     <Link to="single-post.html">
                                         <h6 className="text-uppercase">Next</h6>
@@ -237,11 +248,18 @@ export function SingleArticle() {
                                         </h3>
                                     </Link>
                                 </div>
-                            </nav>
+                            </nav> */}
 
-                            <AuthorBlock />
+                            <AuthorBlock 
+                            avatar={data.User.avatar}
+                            name={data.User.name}
+                            // user={elem.user}
+                            // viewsCount={elem.viewsCount}
+                            // imageUrl={elem.imageUrl}
+                            // tags={elem.tags}
+                            />
 
-                            <div className="related-posts-block">
+                            {/* <div className="related-posts-block">
                                 <h3 className="news-title">
                                     <span>Related Posts</span>
                                 </h3>
@@ -312,15 +330,19 @@ export function SingleArticle() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div id="comments" className="comments-block block">
                                 <h3 className="news-title">
-                                    <span>02 Comments</span>
+                                    <span>{data.Comments.length} Comments</span>
                                 </h3>
                                 <ul className="all-comments">
                                     <li>
-                                        <div className="comment">
+
+                                        <Comment 
+                                        article_id = {id}
+                                        />
+                                        {/* <div className="comment">
                                             <img className="commented-person" alt="" src="../images/news/author-01.jpg" />
                                                 <div className="comment-body">
                                                     <div className="meta-data">
@@ -329,9 +351,7 @@ export function SingleArticle() {
                                                     </div>
                                                     <div className="comment-content">
                                                         <p>
-                                                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta perferendis asperiores
-                                                            voluptatum saepe repellat atque obcaecati dolores nulla, explicabo harum inventore
-                                                            sed corrupti molestiae aspernatur.
+                                                           Hello
                                                         </p>
                                                     </div>
                                                     <div className="text-left">
@@ -378,44 +398,51 @@ export function SingleArticle() {
                                                         <Link className="comment-reply" to="#"><i className="fa fa-reply"></i> Reply</Link>
                                                     </div>
                                                 </div>
-                                        </div>
+                                        </div> 
+                                        */ }
                                     </li>
                                 </ul>
                             </div>
+                            {isAuth ? (
+                                <AddComment />
 
-                            <div className="comment-form ">
-                                <h3 className="title-normal">Leave a Reply </h3>
-                                <p className="mb-4">Your email address will not be published. Required fields are marked *</p>
-                                <form role="form">
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="form-group">
-                                                <textarea className="form-control required-field" id="message" placeholder="Messege" rows="8" required></textarea>
-                                            </div>
-                                        </div>
+                                // <div className="comment-form ">
+                                //     <h3 className="title-normal">Leave a Reply </h3>
+                                //     <p className="mb-4">Your email address will not be published. Required fields are marked *</p>
+                                //     <form role="form">
+                                //         <div className="row">
+                                //             <div className="col-md-12">
+                                //                 <div className="form-group">
+                                //                     <textarea className="form-control required-field" id="message" placeholder="Messege" rows="8" required></textarea>
+                                //                 </div>
+                                //             </div>
 
-                                        <div className="col-md-4">
-                                            <div className="form-group">
-                                                <input className="form-control" name="name" id="name" placeholder="Name" type="text" required />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <div className="form-group">
-                                                <input className="form-control" name="email" id="email" placeholder="Email" type="email" required />
-                                            </div>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <div className="form-group">
-                                                <input className="form-control" type="text" placeholder="Website" required />
-                                            </div>
-                                        </div>
+                                //             <div className="col-md-4">
+                                //                 <div className="form-group">
+                                //                     <input className="form-control" name="name" id="name" placeholder="Name" type="text" required />
+                                //                 </div>
+                                //             </div>
+                                //             <div className="col-md-4">
+                                //                 <div className="form-group">
+                                //                     <input className="form-control" name="email" id="email" placeholder="Email" type="email" required />
+                                //                 </div>
+                                //             </div>
+                                //             <div className="col-md-4">
+                                //                 <div className="form-group">
+                                //                     <input className="form-control" type="text" placeholder="Website" required />
+                                //                 </div>
+                                //             </div>
 
-                                        <div className="col-md-12">
-                                            <button className="comments-btn btn btn-primary " type="submit">Post Comment</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                                //             <div className="col-md-12">
+                                //                 <button className="comments-btn btn btn-primary " type="submit">Post Comment</button>
+                                //             </div>
+                                //         </div>
+                                //     </form>
+                                // </div>
+                            
+                            ) : (
+                                <p>Если Вы хотите оставить комментарий к статье, Вам необходимо авторизоваться!</p>
+                            )}
 
                         </div>
                         <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">

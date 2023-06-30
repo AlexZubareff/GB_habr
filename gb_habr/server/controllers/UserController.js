@@ -1,8 +1,22 @@
 
 const { User } = require('../models');
+const { Role } = require('../models');
+
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const config = require('../config/config')
+const {secret} = require('../config/config')
+
+const generateToken = (id, role) => {
+
+    const payload = 
+        {
+            id,
+            role
+        }
+     
+    return jwt.sign(payload, secret, {expiresIn: '24h'})
+}
+
 
 
 const register = async (req, res, next) => {
@@ -15,23 +29,30 @@ const register = async (req, res, next) => {
         const saltRounds = 10;
         const passwordHash = await bcrypt.hash(pass, saltRounds);
 
+        const userRole = await Role.findOne({where: {name: "User"}})
+        console.log(userRole);
+
+
+
         const newUser = User.build({
             name: req.body.name,
             email: req.body.email,
-            password: passwordHash
+            password: passwordHash,
+            role_id: userRole.id
         })
 
         const user = await newUser.save();
 
-        const token = jwt.sign(
-            {
-                id: user.id,
-            },
-            config.secret,
-            {
-                expiresIn: '30d',
-            },
-        );
+        // const token = jwt.sign(
+        //     {
+        //         id: user.id,
+        //     },
+        //     config.secret,
+        //     {
+        //         expiresIn: '30d',
+        //     },
+        // );
+        const token = generateToken(user.id, user.role_id)
 
         res.json({
             user,
@@ -40,7 +61,7 @@ const register = async (req, res, next) => {
 
     } catch (err) {
         console.log(err);
-        res.status(500).json({ message: "Не удалось зарегестрироваться" });
+        res.status(500).json({ message: "Такой пользователь уже существует" });
 
     }
 }
@@ -66,15 +87,17 @@ const login = async (req, res, next) => {
             });
         }
 
-        const token = jwt.sign(
-            {
-                id: user.id,
-            },
-            config.secret,
-            {
-                expiresIn: '1d',
-            },
-        );
+        // const token = jwt.sign(
+        //     {
+        //         id: user.id,
+        //     },
+        //     config.secret,
+        //     {
+        //         expiresIn: '1d',
+        //     },
+        // );
+
+const token = generateToken(user.id, user.role_id)
 
         res.json({
             user,
@@ -116,9 +139,25 @@ const auth = async (req, res, next) => {
 
 }
 
+const getUsers = async (req, res, next) => {
+    try {
+        const users = await User.findAll()
+
+        res.json(users)
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Нет доступа"
+        });
+
+    }
+
+}
+
 
 module.exports = {
     register,
     login,
-    auth
+    auth,
+    getUsers
 }

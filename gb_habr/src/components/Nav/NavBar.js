@@ -14,6 +14,10 @@ console.log(isAuth);
 console.log(userData);
 
 
+
+// const userRole = userData.user.role_id;
+
+
 const onClickLogaut = () => {
   if (window.confirm('Вы действительно хотите выйти?')) {
     dispatch(logaut());
@@ -104,10 +108,8 @@ const onClickLogaut = () => {
 
 
                   <div className="nav-search ml-auto d-none d-lg-block">
-                  {isAuth ? (
-                      <>
-                        {/* <Link to="/article/create"><button className="btn btn-primary mr-2">Write Article</button></Link>
-                        <Link to="/"><button onClick={onClickLogaut} className="btn btn-primary">Exit</button></Link> */}
+                  { isAuth ? ( userData.user.role_id === 3 ? (
+                    <>
                         <ul className="navbar-nav mr-auto">
                         <Link className="nav-link" to="/article/create"> <i className="fa fa-pencil fa-lg text-light" aria-hidden="true"></i></Link>
                         <Link className="nav-link" to="/"><i onClick={onClickLogaut} className="fa fa-arrow-right fa-lg text-light" aria-hidden="true"></i></Link>
@@ -124,8 +126,38 @@ const onClickLogaut = () => {
                         <img className="ml-3" src={userData.user.avatar ? userData.user.avatar : "../images/news/author_no_avatar.png" } alt="author-image" width="25" height="25"/>
                         <div className="ml-3">{userData.user.name}</div>
 
-                        {/* <Link className="dropdown-item" to="/user_articles"><img src={userData.user.avatar ? userData.user.avatar : "../images/news/author_no_avatar.png" } alt="author-image" width="25" height="25"/>{userData.user.name}</Link> */}
-                          <Link className="dropdown-item" to="/user_articles">Статьи</Link>
+                          <Link className="dropdown-item" to="/user/articles">Ваши Статьи</Link>
+                          <Link className="dropdown-item" to="/register">Коментарии</Link>
+                          <Link className="dropdown-item" to="/login">Как стать автором</Link>
+                          <Link className="dropdown-item" to="/register">Профиль</Link>
+                          <Link className="dropdown-item" to="/register">Админ панель</Link>
+                        </div>
+                      </li>
+
+                        </ul>
+                      </>
+                  ) : (
+                      <>
+                        {/* <Link to="/article/create"><button className="btn btn-primary mr-2">Write Article</button></Link>
+                        <Link to="/"><button onClick={onClickLogaut} className="btn btn-primary">Exit</button></Link> */}
+                        
+                        <ul className="navbar-nav mr-auto">
+                        <Link className="nav-link" to="/article/create"> <i className="fa fa-pencil fa-lg text-light" aria-hidden="true"></i></Link>
+                        <Link className="nav-link" to="/"><i onClick={onClickLogaut} className="fa fa-arrow-right fa-lg text-light" aria-hidden="true"></i></Link>
+                        <li className="nav-item" id="search">
+                        <Link className="nav-link" id="search"><i className="fa fa-search fa-lg text-light"></i></Link>
+                      </li>
+                      <li className="nav-item dropdown">
+                        <Link className="nav-link" to="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {/* <i className="fa fa-user fa-lg text-light"></i> */}
+
+                          <img src={userData.user.avatar ? userData.user.avatar : "../images/news/author_no_avatar.png" } alt="author-image" width="25" height="25"/>
+                        </Link>
+                        <div className="dropdown-menu">
+                        <img className="ml-3" src={userData.user.avatar ? userData.user.avatar : "../images/news/author_no_avatar.png" } alt="author-image" width="25" height="25"/>
+                        <div className="ml-3">{userData.user.name}</div>
+
+                          <Link className="dropdown-item" to="/user/articles">Ваши Статьи</Link>
                           <Link className="dropdown-item" to="/register">Коментарии</Link>
                           <Link className="dropdown-item" to="/login">Как стать автором</Link>
                           <Link className="dropdown-item" to="/register">Профиль</Link>
@@ -134,8 +166,8 @@ const onClickLogaut = () => {
 
                         </ul>
                       </>
-                    )
-                    : (
+                  )
+                     ) : (
                       <>
                   <div className="nav-search ml-auto d-none d-lg-block">
                     <ul className="navbar-nav mr-auto">

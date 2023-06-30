@@ -1,34 +1,40 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-export function AuthorBlock() {
+export function AuthorBlock(
+    {
+        avatar,
+        name,
+    }
+) {
     return (
         <>
-            <div class="author-block">
-                <div class="author-thumb">
-                    <img src="images/news/author-02.jpg" alt="author-image" />
+            <div className="author-block">
+                <div className="author-thumb">
+                    <img src={avatar} alt="author-image" />
                 </div>
-                <div class="author-content">
-                    <h3><a href="author.html">Lint Handson</a></h3>
+                <div className="author-content">
+                    <h3><Link to="author.html">{name}</Link></h3>
                     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sit quod molestias delectus illum quisquam.
                         Quasi iure perferendis suscipit officiis dicta!
                     </p>
 
-                    <div class="authors-social">
-                        <a href="#">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fa fa-pinterest-p"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fa fa-dribbble"></i>
-                        </a>
+                    <div className="authors-social">
+                        <Link to="#">
+                            <i className="fa fa-facebook"></i>
+                        </Link>
+                        <Link to="#">
+                            <i className="fa fa-twitter"></i>
+                        </Link>
+                        <Link to="#">
+                            <i className="fa fa-google-plus"></i>
+                        </Link>
+                        <Link to="#">
+                            <i className="fa fa-pinterest-p"></i>
+                        </Link>
+                        <Link to="#">
+                            <i className="fa fa-dribbble"></i>
+                        </Link>
                     </div>
                 </div>
             </div>

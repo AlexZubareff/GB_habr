@@ -1,5 +1,7 @@
 const { Article } = require('../models');
 const { User } = require('../models');
+const { Comment } = require('../models');
+
 
 
 
@@ -7,7 +9,7 @@ const { User } = require('../models');
 const getAll = async (req, res, next) => {
     try {
         const articles = await Article.findAll({
-            include: User,
+            include: [User, Comment],
             limit: 9,
         },
         );
@@ -20,6 +22,9 @@ const getAll = async (req, res, next) => {
 
     }
 };
+
+// ПОЛУЧЕНИЕ ВСЕХ ОПУБЛИКОВАННЫХ СТАТЕЙ ПОЛЬЗОВАТЕЛЯ
+
 const getAllArticlesUser = async (req, res, next) => {
 
     try {
@@ -28,6 +33,7 @@ const getAllArticlesUser = async (req, res, next) => {
         const articles = await Article.findAll({
             where: {
                 user_id: userId,
+                status: 'published'
               },
             limit: 5,
         },
@@ -52,14 +58,14 @@ const getOne = async (req, res, next) => {
 
 
         const inc = await Article.increment({ viewsCount: 1 },
-            {
+            {   
                 where: { id: articleId },
             },
         )
         if (!inc) throw ('Error inc');
 
         const article = await Article.findByPk(articleId, {
-            include: User,
+            include: [User, Comment]
         },
         )
 
@@ -102,7 +108,8 @@ const create = async (req, res, next) => {
             imageUrl: req.body.imageUrl,
             tags: req.body.tags,
             category_id: req.body.category_id,
-            user_id: req.user_id
+            user_id: req.user_id,
+            status: 'published'
         });
         console.log(newArticle);
         const article = await newArticle.save();

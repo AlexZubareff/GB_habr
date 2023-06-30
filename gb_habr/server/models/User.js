@@ -1,6 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
-const Article = require('./Article');
+// const Article = require('./Article');
 
 
 module.exports = (sequelize, DataTypes) => {
@@ -24,7 +24,25 @@ module.exports = (sequelize, DataTypes) => {
           name: 'user_id',
           type: DataTypes.INTEGER
         }}
-);
+      );
+
+      User.belongsToMany(models.Role, { through: 'UserRole'});
+
+      User.hasMany(models.Comment,
+        {
+          foreignKey: {
+            name: 'user_id',
+            type: DataTypes.INTEGER
+          }
+        }
+      );
+      models.Comment.belongsTo(User, {
+        foreignKey: {
+          name: 'user_id',
+          type: DataTypes.INTEGER
+        }
+      }
+      );
     }
   }
   User.init({
@@ -33,7 +51,10 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     avatar: DataTypes.STRING,
     token: DataTypes.STRING,
-    role_id: DataTypes.INTEGER.UNSIGNED
+    role_id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      defaultValue: 1
+    }
   },{
     sequelize,
     modelName: 'User',

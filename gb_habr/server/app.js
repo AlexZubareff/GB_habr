@@ -4,8 +4,9 @@ const cors = require('cors');
 
 
 
-const { UserController, ArticleController } = require('./controllers/index');
-const { userValidators, articleValidators, checkAuth, checkValidation } = require('./services/index');
+const { UserController, ArticleController, CommentController } = require('./controllers/index');
+const { userValidators, articleValidators, checkAuth, checkValidation, checkRole } = require('./services/index');
+
 
 
 const app = express();
@@ -30,17 +31,20 @@ app.get('/', (req, res, next) => {
     res.send('Hello!333333');
 })
 
-
+// АВТОРИЗАЦИЯ
 app.post('/auth/register', userValidators.registerUserValidation, checkValidation, UserController.register);
 app.post('/auth/login', userValidators.loginUserValidation, checkValidation, UserController.login);
 app.get('/auth/me', checkAuth, UserController.auth);
 
+// ПОЛУЧЕНИЕ ВСЕХ ПОЛЬЗОВАТЕЛЕЙ
+app.get('/auth/users', checkRole(['1', '2']), UserController.getUsers)
+// зАГРУЗКА ФАЙЛОВ
 app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
     res.json({
         url: `/uploads/${req.file.originalname}`,
     })
 });
-
+// ПОЛУЧЕНИЕ СТАТЕЙ
 app.get('/posts', ArticleController.getAll);
 app.get('/posts/user/:id', ArticleController.getAllArticlesUser);
 
@@ -50,6 +54,9 @@ app.post('/posts', checkAuth, articleValidators.articleCreateValidation, checkVa
 app.patch('/posts/:id', checkAuth, articleValidators.articleUpdateValidation, checkValidation, ArticleController.update);
 app.delete('/posts/:id', checkAuth, ArticleController.remove);
 
+
+// ПОЛУЧЕНИЕ КОММЕНТАРИЕВ
+app.get('/posts/comment/:id', CommentController.getComment);
 
 app.listen(7777, (err) => {
     if (err) {

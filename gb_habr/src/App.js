@@ -28,7 +28,7 @@ React.useEffect(() => {
             <Route exact path="/about" Component={About} />
             <Route exact path="/login" Component={Login} />
             <Route exact path="/register" Component={Registration} />
-            <Route exact path="/user_articles" Component={UserArticles} />
+            <Route exact path="/user/articles" Component={UserArticles} />
             <Route exact path="/article/:id/edit" Component={AddArticle} />
             <Route exact path="/article/create" Component={AddArticle} />
             <Route exact path="/article/:id" Component={SingleArticle} />

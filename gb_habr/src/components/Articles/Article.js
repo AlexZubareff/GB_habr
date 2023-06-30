@@ -13,7 +13,8 @@ export default function RecentArticles({
     updated_at,
     deleted_at,
     category_id,
-    user_id
+    user_id,
+    commentsCount
 }) {
     return (
         <div className="col-lg-4 col-md-4">
@@ -30,7 +31,7 @@ export default function RecentArticles({
                                             {/* <i class="fa fa-heart"></i> */}
                                             <Link to="single-post.html#comments">{viewsCount}</Link>
                                             <i className="fa fa-comments"></i>
-                                            <Link to="single-post.html#comments">{viewsCount}</Link>
+                                            <Link to="single-post.html#comments">{commentsCount}</Link>
                                         </span>
                                     </div>
                                 </div>

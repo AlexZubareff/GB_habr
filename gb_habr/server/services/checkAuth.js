@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-const config = require('../config/config')
+// const config = require('../config/config')
+const {secret} = require('../config/config')
 
 
 const checkAuth = (req, res, next) => {
@@ -9,9 +10,11 @@ const checkAuth = (req, res, next) => {
 
     if (token) {
         try {
-            const decoded = jwt.verify(token, config.secret);
-            console.log(decoded.id);
+            const decoded = jwt.verify(token, secret);
+            // console.log(decoded.id);
+            // console.log(decoded.role);
             req.user_id = decoded.id;
+            req.role_id = decoded.role
         } catch (error) {
             return res.status(403).json({
                 message: 'Нет доступа',

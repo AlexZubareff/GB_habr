@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 
-const User = require('./User');
+// const User = require('./User');
 
 module.exports = (sequelize, DataTypes) => {
   class Article extends Model {
@@ -13,12 +13,28 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Article.belongsTo(models.User,         { 
+      Article.belongsTo(models.User, {
         foreignKey: {
           name: 'user_id',
           type: DataTypes.INTEGER
-        }}
-);
+        }
+      }
+      );
+      Article.hasMany(models.Comment,
+        {
+          foreignKey: {
+            name: 'article_id',
+            type: DataTypes.INTEGER
+          }
+        }
+      );
+      models.Comment.belongsTo(Article, {
+        foreignKey: {
+          name: 'article_id',
+          type: DataTypes.INTEGER
+        }
+      }
+      );
     }
   }
   Article.init({
