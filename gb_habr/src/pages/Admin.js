@@ -4,13 +4,13 @@ import NavBar from "../components/Nav/NavBar";
 import Footer from "../components/Footer/Footer";
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsAuth } from '../redux/slices/auth';
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, Outlet } from "react-router-dom";
 import axios from '../axios';
 import AllUserArticles from "../components/Articles/AllUserArticle";
 import ImageGrid from '../components/Loading/RecentArticlesLoading';
 
 
-import { fetchAllUserArticles } from "../redux/slices/articles";
+import { fetchAllUserArticles, fetchArticles } from "../redux/slices/articles";
 import UserArticlesLoader from "../components/Loading/UserArticlesLoader";
 import Error_404 from "../components/Error/error_404";
 
@@ -18,7 +18,7 @@ import Error_404 from "../components/Error/error_404";
 
 
 
-export function UserArticles() {
+export function Admin() {
 
 const dispatch = useDispatch();
 const {articles} = useSelector(state => state.articles);
@@ -37,9 +37,20 @@ const isArticlesLoading = articles.status === 'loading';
 
 // }, []);
 
-React.useEffect(() => {
+const getArticles = () => {
+    dispatch(fetchArticles());
+}
 
-    dispatch(fetchAllUserArticles(userId))
+
+React.useEffect(() => {
+    // axios.get('/posts');
+    dispatch(fetchArticles());
+}, []);
+
+
+// React.useEffect(() => {
+
+//     dispatch(fetchAllUserArticles(userId))
 
     // axios
     //   .get(`/posts/user/${userId}`)
@@ -52,7 +63,7 @@ React.useEffect(() => {
     //       console.log(err);
     //       alert('Ошибка при получении статей')
     //   })
-  }, [userId]);
+//   }, [userId]);
   
   console.log(filteredData.length);
   console.log(filteredData);
@@ -97,7 +108,7 @@ React.useEffect(() => {
     // }
     
     console.log(filteredData);
-    console.log(articles);
+    console.log(articles.items);
 
     
     return (
@@ -109,15 +120,18 @@ React.useEffect(() => {
                             <div className="sidebar sidebar-left">
                                 <div className="widget">
                                     <h5 className="news-title">
-                                    <Link><span onClick={() => filterArticles('')}>Все статьи</span></Link>
+                                    {/* <Link className="nav-link" to='/admin'>Статьи</Link> */}
+                                    <Link className="nav-link" to='/admin/article'><span onClick={getArticles}>Статьи</span></Link>
+
                                     </h5>
                                     <h5 className="news-title">
-                                        <Link><span onClick={() => filterArticles('published')}>Опубликованные</span></Link>
+                                    <Link className="nav-link" to='/admin/user'><span>Пользователи</span></Link>
+                                        {/* <Link><span onClick={() => filterArticles('published')}>Пользователи</span></Link> */}
                                     </h5>
                                     <h5 className="news-title">
-                                    <Link><span onClick={() => filterArticles('pending')}>На проверке</span></Link>
+                                    <Link><span onClick={() => filterArticles('pending')}>Комментарии</span></Link>
                                     </h5>
-                                    <h5 className="news-title">
+                                    {/* <h5 className="news-title">
                                     <Link><span onClick={() => filterArticles('draft')}>Черновики</span></Link>
                                     </h5>
                                     <h5 className="news-title">
@@ -128,16 +142,16 @@ React.useEffect(() => {
                                     </h5>
                                     <h5 className="news-title">
                                     <Link><span>Лайки</span></Link>
-                                    </h5>
+                                    </h5> */}
 
                                 </div>
                             </div>
                         </div>
                         <div className="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-                        
-                        { filteredData.length == 0 ? <Error_404 /> :
+                        <Outlet />
+                        {/* { articles.items.length == 0 ? <Error_404 /> :
 
-                        (isArticlesLoading ? [...Array(<UserArticlesLoader />)] : filteredData).map((elem, index) =>
+                        (isArticlesLoading ? [...Array(<UserArticlesLoader />)] : articles.items).map((elem, index) =>
                                             isArticlesLoading ? (
                                                 <UserArticlesLoader />
                                             ) : (
@@ -151,7 +165,7 @@ React.useEffect(() => {
                                                     status={elem.status}
                                                     created_at={elem.created_at.slice(0,10)}
                                                 />
-                                            ))}
+                                            ))} */}
 
 
                         {/* {articles.map(elem => 
@@ -233,6 +247,8 @@ React.useEffect(() => {
                 </div>
             </section>
 
+
+        
         </>
     )
 }

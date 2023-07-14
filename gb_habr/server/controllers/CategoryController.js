@@ -1,29 +1,27 @@
-const { Article } = require('../models');
-const { User } = require('../models');
+// const { Article } = require('../models');
+// const { User } = require('../models');
 const { Comment } = require('../models');
+const { Articles_Category } = require('../models');
 
-const getComment = async (req, res, next) => {
+const getCategory = async (req, res, next) => {
     try {
-        const articleId = req.params.id;
-        console.log(articleId);
-        console.log(req.params.user_id);
+        // const articleId = req.params.id;
+        // console.log(articleId);
+        // console.log(req.params.user_id);
 
 
 
-        const comment = await Comment.findAll({ 
-            where: { article_id: articleId }, 
-            include: User 
-        })
-
-        res.json(comment);
+        const categories = await Articles_Category.findAll();
+        console.log(categories);
+        res.json(categories);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Не удалось получить комментарии" });
+        res.status(500).json({ message: "Не удалось получить категории статей" });
 
     }
 }
 
-const createComment = async (req, res, next) => {
+const createCategory = async (req, res, next) => {
     try {
 
         const newComment = Comment.build({
@@ -45,6 +43,6 @@ const createComment = async (req, res, next) => {
 }
 
 module.exports = {
-    getComment,
-    createComment
+    getCategory,
+    createCategory
 }

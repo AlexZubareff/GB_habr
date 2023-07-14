@@ -49,7 +49,10 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    avatar: DataTypes.STRING,
+    avatar: {
+    type: DataTypes.STRING,
+    defaultValue: '../images/news/author_no_avatar.png'
+    },
     token: DataTypes.STRING,
     role_id: {
       type: DataTypes.INTEGER.UNSIGNED,

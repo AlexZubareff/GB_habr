@@ -20,6 +20,13 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
       );
+      Article.belongsTo(models.Articles_Category, {
+        foreignKey: {
+          name: 'category_id',
+          type: DataTypes.INTEGER
+        }
+      }
+      );
       Article.hasMany(models.Comment,
         {
           foreignKey: {
@@ -46,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.ENUM('published','draft','pending','delete'),
     deleted_at: DataTypes.DATE,
     user_id: DataTypes.INTEGER,
-    category_id: DataTypes.INTEGER.UNSIGNED,
+    category_id: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'Article',

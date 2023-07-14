@@ -1,6 +1,5 @@
 
-const { User } = require('../models');
-const { Role } = require('../models');
+const { User, Role, Profile } = require('../models');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -42,6 +41,22 @@ const register = async (req, res, next) => {
         })
 
         const user = await newUser.save();
+
+        console.log(user);
+
+        const newUserProfile = Profile.build({
+            first_name: '',
+            last_name: '',
+            country: '',
+            city: '',
+            user_id: user.id,
+            birthday: null,
+            about_me: ''
+
+        })
+
+        const profile = await newUserProfile.save();
+        console.log(profile);
 
         // const token = jwt.sign(
         //     {
@@ -154,10 +169,65 @@ const getUsers = async (req, res, next) => {
 
 }
 
+const updateUserName = async (req, res, next) => {
+    try {
+        const userId = req.params.id;
+        await User.update({
+            name: req.body.name,
+        },
+            {
+                where: {
+                    id: userId,
+                }
+            });
+
+        res.json({
+            success: true,
+        });
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Не удалось обновить имя" });
+
+    }
+
+}
+const updateUserPassword = async (req, res, next) => {
+    try {
+        const pass = req.body.password;
+        console.log(pass);
+
+        const saltRounds = 10;
+        const passwordHash = await bcrypt.hash(pass, saltRounds);
+        const userId = req.params.id;
+        await User.update({
+            password: passwordHash,
+        },
+            {
+                where: {
+                    id: userId,
+                }
+            });
+            
+            res.json({
+                success: true,
+            });
+    
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Не удалось обновить пароль" });
+
+    }
+
+}
 
 module.exports = {
     register,
     login,
     auth,
-    getUsers
+    getUsers,
+    updateUserName,
+    updateUserPassword
 }

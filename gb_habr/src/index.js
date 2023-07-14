@@ -7,6 +7,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import store from './redux/store';
+import NavBar from './components/Nav/NavBar';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 
 
@@ -15,7 +18,10 @@ root.render(
   <>
     <BrowserRouter>
       <Provider store={store}>
+        <Header/>
+        <NavBar/>
         <App />
+        <Footer/>
       </Provider>
     </BrowserRouter>
 

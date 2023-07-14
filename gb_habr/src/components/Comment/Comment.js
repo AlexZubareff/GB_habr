@@ -35,7 +35,7 @@ export default function Comment(
         <>
         { data.map(elem => (
             <div className="comment">
-                <img className="commented-person" alt="" src={elem.User.avatar} />
+                <img className="commented-person" alt="" src={elem.User.avatar}  width="80" height="80"/>
                 <div className="comment-body">
                     <div className="meta-data">
                         <span className="commented-person-name">{elem.User.name}</span>
@@ -46,9 +46,9 @@ export default function Comment(
                             {elem.body}
                         </p>
                     </div>
-                    <div className="text-left">
+                    {/* <div className="text-left">
                         <Link className="comment-reply" to="#"><i className="fa fa-reply"></i> Reply</Link>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         ))}

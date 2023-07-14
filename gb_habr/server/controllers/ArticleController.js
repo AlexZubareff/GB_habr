@@ -1,14 +1,15 @@
-const { Article } = require('../models');
-const { User } = require('../models');
-const { Comment } = require('../models');
-
-
-
+const { Article, User, Comment, Articles_Category } = require('../models');
+// const { User } = require('../models');
+// const { Comment } = require('../models');
+// const { Articles_Category } = require('../models');
 
 
 const getAll = async (req, res, next) => {
     try {
         const articles = await Article.findAll({
+            where: {
+                status: 'published'
+              },
             include: [User, Comment],
             limit: 9,
         },
@@ -23,7 +24,7 @@ const getAll = async (req, res, next) => {
     }
 };
 
-// ПОЛУЧЕНИЕ ВСЕХ ОПУБЛИКОВАННЫХ СТАТЕЙ ПОЛЬЗОВАТЕЛЯ
+// ПОЛУЧЕНИЕ ВСЕХ СТАТЕЙ ПОЛЬЗОВАТЕЛЯ
 
 const getAllArticlesUser = async (req, res, next) => {
 
@@ -33,9 +34,9 @@ const getAllArticlesUser = async (req, res, next) => {
         const articles = await Article.findAll({
             where: {
                 user_id: userId,
-                status: 'published'
+                // status: 'published'
               },
-            limit: 5,
+            limit: 10,
         },
         );
 
@@ -48,6 +49,29 @@ const getAllArticlesUser = async (req, res, next) => {
     }
 };
 
+const getCategoryArticles = async (req, res, next) => {
+
+    try {
+        const category_id = req.params.id;
+        console.log(category_id);
+        const articles = await Article.findAll({
+            where: {
+                category_id: category_id,
+                status: 'published',
+                },
+                include: [Articles_Category, User],
+            limit: 5,
+        },
+        );
+
+        res.json(articles);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Не удалось получить статьи по этой категории" });
+
+    }
+};
 
 
 const getOne = async (req, res, next) => {
@@ -82,11 +106,16 @@ const remove = async (req, res, next) => {
         const articleId = req.params.id;
         console.log(articleId);
 
-        await Article.destroy({
+        await Article.update(
+            {
+                status: 'delete',
+              },
+            {
             where: {
                 id: articleId,
             }
-        })
+            }
+        )
 
 
         res.json({
@@ -109,7 +138,7 @@ const create = async (req, res, next) => {
             tags: req.body.tags,
             category_id: req.body.category_id,
             user_id: req.user_id,
-            status: 'published'
+            status: req.body.status
         });
         console.log(newArticle);
         const article = await newArticle.save();
@@ -133,7 +162,8 @@ const update = async (req, res, next) => {
             imageUrl: req.body.imageUrl,
             tags: req.body.tags,
             category_id: req.body.category_id,
-            user_id: req.user_id
+            user_id: req.user_id,
+            status: req.body.status
         },
             {
                 where: {
@@ -160,5 +190,6 @@ module.exports = {
     getOne,
     remove,
     update,
-    getAllArticlesUser
+    getAllArticlesUser,
+    getCategoryArticles
 }

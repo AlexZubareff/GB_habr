@@ -53,19 +53,19 @@ const articlesSlice = createSlice({
             state.articles.items = [];
             state.articles.status = 'error';
         },
-                //Полоучение статей  пользователя      
-                [fetchAllUserArticles.pending]: (state) => {
-                    state.articles.items = [];
-                    state.articles.status = 'loading'
-                },
-                [fetchAllUserArticles.fulfilled]: (state, action) => {
-                    state.articles.items = action.payload;
-                    state.articles.status = 'loaded';
-                },
-                [fetchAllUserArticles.rejected]: (state) => {
-                    state.articles.items = [];
-                    state.articles.status = 'error';
-                },
+        //Полоучение всех статей  пользователя      
+        [fetchAllUserArticles.pending]: (state) => {
+            state.articles.items = [];
+            state.articles.status = 'loading'
+        },
+        [fetchAllUserArticles.fulfilled]: (state, action) => {
+            state.articles.items = action.payload;
+            state.articles.status = 'loaded';
+        },
+        [fetchAllUserArticles.rejected]: (state) => {
+            state.articles.items = [];
+            state.articles.status = 'error';
+        },
         
         // Удаление статьи
         [fetchRemoveArticle.pending]: (state, action) => {

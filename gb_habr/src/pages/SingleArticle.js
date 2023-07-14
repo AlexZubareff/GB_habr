@@ -24,6 +24,7 @@ export function SingleArticle() {
 
     const [isLoading, setLoading] = React.useState(true);
     const {id} = useParams();
+    const userData = useSelector((state) => state.auth.data);
 
     console.log(id);
 
@@ -138,12 +139,10 @@ export function SingleArticle() {
                 </div>
             </div>
 
-<Header />
-<NavBar />
             <section className="single-block-wrapper section-padding">
                 <div className="container">
                     <div className="row">
-                        <div className="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                        <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <FullArticle 
                              title={data.title}
                              text={data.text}
@@ -404,7 +403,11 @@ export function SingleArticle() {
                                 </ul>
                             </div>
                             {isAuth ? (
-                                <AddComment />
+                                <AddComment 
+                                article_id = {id}
+                                user_id = {userData.user.id}
+                                status = 'published'
+                                />
 
                                 // <div className="comment-form ">
                                 //     <h3 className="title-normal">Leave a Reply </h3>
@@ -445,9 +448,9 @@ export function SingleArticle() {
                             )}
 
                         </div>
-                        <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        {/* <div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                             <HotNews />
-                            {/* <div className="sidebar sidebar-right">
+                            <div className="sidebar sidebar-right">
                                 <div className="widget">
                                     <h3 className="news-title">
                                         <span>Hot News</span>
@@ -539,13 +542,12 @@ export function SingleArticle() {
                                 <div className="widget">
                                     <img className="banner img-fluid" src="images/banner-ads/ad-sidebar.png" alt="300x300 ads" />
                                 </div>
-                            </div> */}
-                        </div>
+                            </div>
+                        </div> */}
                     </div>
                 </div>
             </section>
 
-<Footer />
         </>
     )
 }

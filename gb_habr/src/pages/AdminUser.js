@@ -10,20 +10,22 @@ import AllUserArticles from "../components/Articles/AllUserArticle";
 import ImageGrid from '../components/Loading/RecentArticlesLoading';
 
 
-import { fetchAllUserArticles } from "../redux/slices/articles";
+import { fetchAllUserArticles, fetchArticles } from "../redux/slices/articles";
 import UserArticlesLoader from "../components/Loading/UserArticlesLoader";
 import Error_404 from "../components/Error/error_404";
+import AdminUsers from "../components/Admin/AdminUsers";
 
 
 
 
 
-export function UserArticles() {
+export function AdminUser() {
 
 const dispatch = useDispatch();
 const {articles} = useSelector(state => state.articles);
 const userData = useSelector((state)=>state.auth.data);
 const [filteredData, setFilteredData] = React.useState(articles.items);
+const [users, setUsers] = React.useState();
 
 // const [data, setData] = React.useState();
 const [isLoading, setLoading] = React.useState(true);
@@ -38,8 +40,23 @@ const isArticlesLoading = articles.status === 'loading';
 // }, []);
 
 React.useEffect(() => {
+    axios.get('/admin/users')
+        .then((res) => {
+            setUsers(res.data);
+            setLoading(false);
+            console.log(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+          alert('Ошибка при получении пользователей')
+      })
+    // dispatch(fetchArticles());
+}, []);
 
-    dispatch(fetchAllUserArticles(userId))
+
+// React.useEffect(() => {
+
+//     dispatch(fetchAllUserArticles(userId))
 
     // axios
     //   .get(`/posts/user/${userId}`)
@@ -52,11 +69,12 @@ React.useEffect(() => {
     //       console.log(err);
     //       alert('Ошибка при получении статей')
     //   })
-  }, [userId]);
+//   }, [userId]);
   
   console.log(filteredData.length);
   console.log(filteredData);
   console.log(filteredData);
+
     const isAuth = useSelector(selectIsAuth);
 
 
@@ -90,65 +108,34 @@ React.useEffect(() => {
     //     return <Error_404 />
     // } 
 
-    // if (isLoading) {
-    //     return <AllUserArticles 
-    //     isLoading = {isLoading}
-    //     />
-    // }
+    if (isLoading) {
+        return <AdminUsers 
+        isLoading = {isLoading}
+        />
+    }
     
     console.log(filteredData);
-    console.log(articles);
+    console.log(users);
 
     
     return (
         <>
-            <section className="block-wrapper">
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-4 col-md-8 col-sm-12 col-xs-12">
-                            <div className="sidebar sidebar-left">
-                                <div className="widget">
-                                    <h5 className="news-title">
-                                    <Link><span onClick={() => filterArticles('')}>Все статьи</span></Link>
-                                    </h5>
-                                    <h5 className="news-title">
-                                        <Link><span onClick={() => filterArticles('published')}>Опубликованные</span></Link>
-                                    </h5>
-                                    <h5 className="news-title">
-                                    <Link><span onClick={() => filterArticles('pending')}>На проверке</span></Link>
-                                    </h5>
-                                    <h5 className="news-title">
-                                    <Link><span onClick={() => filterArticles('draft')}>Черновики</span></Link>
-                                    </h5>
-                                    <h5 className="news-title">
-                                    <Link to="/article/create"><span>Создать статью</span></Link>
-                                    </h5>
-                                    <h5 className="news-title">
-                                    <Link><span>Комментарии</span></Link>
-                                    </h5>
-                                    <h5 className="news-title">
-                                    <Link><span>Лайки</span></Link>
-                                    </h5>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                    <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         
                         { filteredData.length == 0 ? <Error_404 /> :
 
-                        (isArticlesLoading ? [...Array(<UserArticlesLoader />)] : filteredData).map((elem, index) =>
+                        (isArticlesLoading ? [...Array(<UserArticlesLoader />)] : users).map((elem, index) =>
                                             isArticlesLoading ? (
                                                 <UserArticlesLoader />
                                             ) : (
-                                                <AllUserArticles
+                                                <AdminUsers
                                                     id={elem.id}
-                                                    title={elem.title}
-                                                    user={elem.user}
-                                                    viewsCount={elem.viewsCount}
-                                                    imageUrl={elem.imageUrl}
-                                                    tags={elem.tags}
-                                                    status={elem.status}
+                                                    name={elem.name}
+                                                    email={elem.email}
+                                                    avatar={elem.avatar}
+                                                    role_id={elem.role_id}
+                                                    updated_at={elem.updated_at.slice(0,10)}
                                                     created_at={elem.created_at.slice(0,10)}
                                                 />
                                             ))}
@@ -229,9 +216,8 @@ React.useEffect(() => {
                             </div> */}
 
                         </div>
-                    </div>
-                </div>
-            </section>
+
+
 
         </>
     )

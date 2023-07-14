@@ -10,6 +10,14 @@ import { fetchAuthMe, selectIsAuth } from './redux/slices/auth';
 import { Registration } from './pages/Register';
 import { AddArticle } from './pages/AddArticle';
 import { UserArticles } from './pages/UserArticles';
+import { Category } from './pages/Category';
+import { UserProfile } from './pages/UserProfile';
+import { Admin } from './pages/Admin';
+import { AdminUser } from './pages/AdminUser';
+import { AdminUserProfile } from './pages/AdminUserProfile';
+import { AdminArticle } from './pages/AdminArticle';
+
+
 
 
 
@@ -31,7 +39,17 @@ React.useEffect(() => {
             <Route exact path="/user/articles" Component={UserArticles} />
             <Route exact path="/article/:id/edit" Component={AddArticle} />
             <Route exact path="/article/create" Component={AddArticle} />
+            <Route exact path="/category/:id" Component={Category} />
             <Route exact path="/article/:id" Component={SingleArticle} />
+            <Route exact path="/user/profile/:id" Component={UserProfile} />
+
+            
+            <Route exact path="/admin" Component={Admin}>
+                <Route exact path="/admin/article" Component={AdminArticle} />
+                <Route exact path="/admin/user" Component={AdminUser} />
+                <Route exact path="/admin/user/profile/:id" Component={AdminUserProfile} />
+            </Route>
+
         </Routes>
 
 

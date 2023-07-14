@@ -1,31 +1,63 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { logaut, selectIsAuth } from '../../redux/slices/auth';
+import { fetchArticles } from '../../redux/slices/articles';
+
+import axios from '../../axios';
 
 
 
 
 export default function NavBar() {
+  const navigate = useNavigate();
+
 const dispatch = useDispatch();
+
 const isAuth = useSelector(selectIsAuth);
+const [data, setData] = React.useState();
+const [isLoading, setLoading] = React.useState(true);
 const userData = useSelector((state) => state.auth.data);
 console.log(isAuth);
 console.log(userData);
 
 
+// const user_id = userData.user.id;
+// console.log(user_id);
+
+
+
+React.useEffect(() => {
+  axios
+    .get(`/category`)
+    .then((res) => {
+        setData(res.data);
+        setLoading(false);
+        
+    })
+}, []);
 
 // const userRole = userData.user.role_id;
-
+console.log(data);
 
 const onClickLogaut = () => {
   if (window.confirm('Вы действительно хотите выйти?')) {
     dispatch(logaut());
+    dispatch(fetchArticles());
     window.localStorage.removeItem('token');
   }
 };
 
 
+
+
+if (isLoading) {
+  return "Loading..."
+  // <FullArticle 
+  // isLoading = {isLoading}
+  // />
+}
+// console.log(userData.user.id);
   return (
     <>
       <div className="main-navbar clearfix bg-dark ">
@@ -43,60 +75,35 @@ const onClickLogaut = () => {
 
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul className="navbar-nav mr-auto">
-
-                    <li className="nav-item dropdown">
-                      <Link className="nav-link dropdown-toggle" to="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Home
+                  {data.map(elem => 
+                     <li className="nav-item">
+                     <Link className="nav-link" to={`/category/${elem.id}`}>
+                         {elem.name}
+                       </Link>
+                     </li>
+                  )}
+                    {/* <li className="nav-item">
+                    <Link className="nav-link" to="/category">
+                        ДИЗАЙН
                       </Link>
-                      <div className="dropdown-menu" >
-                        <Link className="dropdown-item" to="/" >Home 1</Link>
-                        <Link className="dropdown-item" to="/">Home 2</Link>
-                      </div>
                     </li>
 
-                    <li className="nav-item dropdown">
-                      <Link className="nav-link dropdown-toggle" to="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Post
+                    <li className="nav-item">
+                    <Link className="nav-link" to="/category">
+                        ВЕБ-РАЗРАБОТКА
                       </Link>
-                      <div className="dropdown-menu" >
-                        <Link className="dropdown-item" to="post-left-sidebar.html">Post Left Sidebar</Link>
-                        <Link className="dropdown-item" to="post-full-width.html">Post Full Width</Link>
-                        <Link className="dropdown-item" to="single-post.html">Single Post</Link>
-                        <Link className="dropdown-item" to="post-category-1.html">Category 1</Link>
-                        <Link className="dropdown-item" to="post-category-2.html">Category 2</Link>
-                        <Link className="dropdown-item" to="author.html">Author</Link>
-                      </div>
                     </li>
-                    {/* <li className="nav-item dropdown">
-                      <Link className="nav-link dropdown-toggle" to="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Account
+
+                    <li className="nav-item ">
+                    <Link className="nav-link" to="/category">
+                        МОБИЛЬНАЯ РАЗРАБОТКА
                       </Link>
-                      <div className="dropdown-menu">
-                        <Link className="dropdown-item" to="/login">Log In</Link>
-                        <Link className="dropdown-item" to="signup.html">Register</Link>
-                      </div>
+                    </li>
+                    <li className="nav-item">
+                    <Link className="nav-link" to="/category">
+                        МАРКЕТИНГ
+                      </Link>
                     </li> */}
-
-                    <li className="nav-item dropdown">
-                      <Link className="nav-link dropdown-toggle" to="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        About
-                      </Link>
-                      <div className="dropdown-menu">
-                        <Link className="dropdown-item" to="about.html">About</Link>
-                        <Link className="dropdown-item" to="terms.html">Terms</Link>
-                        <Link className="dropdown-item" to="privacy.html">Privacy Policy</Link>
-                        <Link className="dropdown-item" to="job.html">Career</Link>
-                      </div>
-                    </li>
-                    <li className="nav-item dropdown">
-                      <Link className="nav-link dropdown-toggle" to="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Pages
-                      </Link>
-                      <div className="dropdown-menu">
-                        <Link className="dropdown-item" to="404.html">404 Page</Link>
-                        <Link className="dropdown-item" to="search.html">Search Page</Link>
-                      </div>
-                    </li>
 
                     <li className="nav-item">
                       <Link className="nav-link" to="contact.html">Contact</Link>
@@ -120,17 +127,21 @@ const onClickLogaut = () => {
                         <Link className="nav-link" to="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                           {/* <i className="fa fa-user fa-lg text-light"></i> */}
 
-                          <img src={userData.user.avatar ? userData.user.avatar : "../images/news/author_no_avatar.png" } alt="author-image" width="25" height="25"/>
+                          {/* <img src={userData.user.avatar ? userData.user.avatar : "../images/news/author_no_avatar.png" } alt="author-image" width="25" height="25"/> */}
+                          <img src={userData.user.avatar} alt="author-image" width="25" height="25"/>
+
                         </Link>
                         <div className="dropdown-menu">
-                        <img className="ml-3" src={userData.user.avatar ? userData.user.avatar : "../images/news/author_no_avatar.png" } alt="author-image" width="25" height="25"/>
+                        {/* <img className="ml-3" src={userData.user.avatar ? userData.user.avatar : "../images/news/author_no_avatar.png" } alt="author-image" width="25" height="25"/> */}
+                        <img className="ml-3" src={userData.user.avatar} alt="author-image" width="25" height="25"/>
+                        
                         <div className="ml-3">{userData.user.name}</div>
 
                           <Link className="dropdown-item" to="/user/articles">Ваши Статьи</Link>
                           <Link className="dropdown-item" to="/register">Коментарии</Link>
                           <Link className="dropdown-item" to="/login">Как стать автором</Link>
-                          <Link className="dropdown-item" to="/register">Профиль</Link>
-                          <Link className="dropdown-item" to="/register">Админ панель</Link>
+                          <Link className="dropdown-item" to={`/user/profile/${userData.user.id}`}>Профиль</Link>
+                          <Link className="dropdown-item" to="/admin/article">Админ панель</Link>
                         </div>
                       </li>
 
@@ -160,7 +171,7 @@ const onClickLogaut = () => {
                           <Link className="dropdown-item" to="/user/articles">Ваши Статьи</Link>
                           <Link className="dropdown-item" to="/register">Коментарии</Link>
                           <Link className="dropdown-item" to="/login">Как стать автором</Link>
-                          <Link className="dropdown-item" to="/register">Профиль</Link>
+                          <Link className="dropdown-item" to={`/user/profile/${userData.user.id}`}>Профиль</Link>
                         </div>
                       </li>
 
