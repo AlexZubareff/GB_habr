@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/GB_habr/static/css/main.aba0f3a3.css",
+    "main.js": "/GB_habr/static/js/main.7f782c23.js",
+    "static/js/787.cf6b67c4.chunk.js": "/GB_habr/static/js/787.cf6b67c4.chunk.js",
+    "static/media/marked.cjs": "/GB_habr/static/media/marked.9d11e79e65a241a47955.cjs",
+    "index.html": "/GB_habr/index.html",
+    "main.aba0f3a3.css.map": "/GB_habr/static/css/main.aba0f3a3.css.map",
+    "main.7f782c23.js.map": "/GB_habr/static/js/main.7f782c23.js.map",
+    "787.cf6b67c4.chunk.js.map": "/GB_habr/static/js/787.cf6b67c4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.aba0f3a3.css",
+    "static/js/main.7f782c23.js"
+  ]
+}
